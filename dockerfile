@@ -22,8 +22,8 @@ USER myuser
 
 WORKDIR /app
 
-# Copy application from builder stage
-COPY --from=builder /app /app
+# Copy application from builder stage, including templates and static files
+COPY --from=builder /app ./
 
 # Expose port 5000 for the application
 EXPOSE 5000

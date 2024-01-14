@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy the requirements first to leverage Docker cache
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-
+RUN pip install pytest
 # Copy the rest of the application
 COPY . ./
 

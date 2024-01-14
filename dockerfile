@@ -11,9 +11,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . ./
 
 
-# Run tests
-RUN pytest tests/
+RUN ls -la tests/
 
+# 运行测试
+RUN pytest tests/
 # Final image stage
 FROM python:3.9-slim
 

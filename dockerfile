@@ -3,12 +3,12 @@ FROM python:3.9-slim as builder
 
 WORKDIR /app
 
-# Copy and install requirements
+# Copy the requirements first to leverage Docker cache
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
-COPY . /app
+COPY . ./
 
 # Run tests
 RUN pytest
@@ -22,7 +22,7 @@ USER myuser
 
 WORKDIR /app
 
-# Copy application from builder stage, including templates and static files
+# Copy application from builder stage
 COPY --from=builder /app ./
 
 # Expose port 5000 for the application

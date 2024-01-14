@@ -1,32 +1,25 @@
-from flask import Flask, request, render_template, redirect, url_for
+# app.py
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
-
-# In-memory database
 items = []
 
-@app.route('/')
-def index():
-    return render_template('index.html', items=items)
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify(items)
 
-@app.route('/add', methods=['POST'])
+@app.route('/items', methods=['POST'])
 def add_item():
-    item = request.form.get('item')
-    if item:
-        items.append(item)
-    return redirect(url_for('index'))
+    item = request.json.get('item')
+    items.append(item)
+    return jsonify(item), 201
 
-@app.route('/delete/<int:index>')
+@app.route('/items/<int:index>', methods=['DELETE'])
 def delete_item(index):
     if index < len(items):
-        items.pop(index)
-    return redirect(url_for('index'))
-
-@app.route('/update/<int:index>', methods=['POST'])
-def update_item(index):
-    if index < len(items):
-        items[index] = request.form.get('new_item')
-    return redirect(url_for('index'))
+        item = items.pop(index)
+        return jsonify(item), 200
+    return jsonify({"error": "Item not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

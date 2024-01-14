@@ -13,6 +13,9 @@ def add_item():
     item = request.json.get('item')
     items.append(item)
     return jsonify(item), 201
+@app.route('/')
+def index():
+    return "Welcome to the Flask App!"
 
 @app.route('/items/<int:index>', methods=['DELETE'])
 def delete_item(index):
